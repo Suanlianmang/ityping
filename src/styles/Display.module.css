@@ -25,3 +25,7 @@
     text-align: center;
     color: hsl(0, 0%, 30%);
 }
+
+.middle b{
+    color: hsl(0, 0%, 0%);
+}
