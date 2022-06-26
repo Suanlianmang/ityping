@@ -11,14 +11,6 @@
     padding: 15px;
 }
 
-.first, .third{
-    text-align: center;
-    font-size: 30px;
-    width: fit-content;
-    color: hsl(0, 0%, 60%);
-    margin: 20px 10px;
-}
-
 .middle{
     font-size: 50px;
     width: fit-content;
@@ -28,4 +20,5 @@
 
 .middle b{
     color: hsl(0, 0%, 0%);
+    word-break: break-all;
 }

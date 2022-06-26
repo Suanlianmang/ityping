@@ -2,14 +2,23 @@ import { useEffect, useState } from "react";
 import Keyboard from "./components/Keyboard";
 import Display from "./components/Display";
 function App() {
-    const alphatbet = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.'];
+    const alphatbet = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '\'', '"'];
 
     var [keyPress, setKeyPress] = useState('');
     var [textIndex, setTextIndex] = useState(0);
     var [text, setText] = useState([]);
     var [keyValue, setKeyValue] = useState(alphatbet);
     var [shiftPress, setShiftPress] = useState(false);
-    var [middleText, setMiddleText] = useState('This is a typing practice web app. It is good')
+    var [middleText, setMiddleText] = useState('')
+
+
+    const get_text = () => {
+        fetch('https://api.chucknorris.io/jokes/random')
+            .then(response => response.json())
+            .then(data => {
+                setMiddleText(data.value);
+            });
+    }
 
 
     const handelKeyPress = (e) => {
@@ -17,10 +26,14 @@ function App() {
             setKeyPress(e.key);
             setTextIndex(textIndex + 1);
             setMiddleText(middleText.substring(1));
-            setText([...text, e.key]);
+            setText([...text, e.key === middleText[0] ? e.key : '*']);
+            if(middleText.length === 1){
+                setText('');
+                get_text();
+            }
         }
         if(e.key === ' '){
-            setText([...text, ' ']);
+            setText([...text, e.key == middleText[0] ? '_' : '*']);
             setTextIndex(textIndex + 1);
             setMiddleText(middleText.substring(1))
         }
@@ -49,6 +62,10 @@ function App() {
             window.removeEventListener("keyup", handleKeyUp);
         };
     }, [text, keyValue]);
+
+    useEffect(() => {
+        get_text();
+    }, []);
 
     return (
         <div className="App">
